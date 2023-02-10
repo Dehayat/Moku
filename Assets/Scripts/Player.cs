@@ -7,6 +7,9 @@ public class Player : NetworkBehaviour
 {
     public override void Spawned()
     {
-        FindAnyObjectByType<GameController>().RPC_Configure();
+        if (Object.HasInputAuthority)
+        {
+            FindAnyObjectByType<GameController>().RPC_Configure();
+        }
     }
 }
