@@ -6,7 +6,7 @@ using Fusion;
 public class GameController : NetworkBehaviour
 {
 
-    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
     public void RPC_Configure(RpcInfo info = default)
     {
         Debug.Log(info.Source.PlayerId);
