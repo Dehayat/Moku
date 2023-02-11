@@ -35,6 +35,7 @@ public class GameController : NetworkBehaviour
         playerCount++;
         if (playerCount == 2)
         {
+            Debug.Log("All players are here");
             currentState = GameState.WaitingForPlayersToChoose;
             playerChooseCount = 0;
             foreach (var player in GameObject.FindObjectsOfType<Player>())
@@ -45,9 +46,9 @@ public class GameController : NetworkBehaviour
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
-    public void RPC_Choose(string choice, Player player, RpcInfo info = default)
+    public void RPC_Choose(CombatMoves move, Player player, RpcInfo info = default)
     {
-        Debug.Log(info.Source.PlayerId + " Chose " + choice);
+        Debug.Log(info.Source.PlayerId + " Chose " + move.ToString());
         player.currentState = PlayerState.chosen;
         playerChooseCount++;
         if (playerChooseCount == 2)

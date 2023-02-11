@@ -15,7 +15,7 @@ public enum PlayerState
 public class Player : NetworkBehaviour
 {
 
-    [Networked(OnChanged = nameof(OnStateChanged))] public PlayerState currentState { get; set; } = PlayerState.choosing;
+    [Networked(OnChanged = nameof(OnStateChanged))] public PlayerState currentState { get; set; } = PlayerState.waiting;
 
     public static void OnStateChanged(Changed<Player> changed)
     {
@@ -44,7 +44,6 @@ public class Player : NetworkBehaviour
         if (Object.HasInputAuthority)
         {
             FindAnyObjectByType<GameController>().RPC_PlayerJoin();
-            currentState = PlayerState.waiting;
         }
     }
     public override void FixedUpdateNetwork()
@@ -55,13 +54,21 @@ public class Player : NetworkBehaviour
         if (Object.HasInputAuthority && currentState == PlayerState.choosing)
         {
 
-            if (GUI.Button(new Rect(0, 0, 200, 40), "Rock"))
+            if (GUI.Button(new Rect(0, 0, 200, 40), "Charge"))
             {
-                FindAnyObjectByType<GameController>().RPC_Choose("Rock", this);
+                FindAnyObjectByType<GameController>().RPC_Choose(CombatMoves.charge, this);
             }
-            if (GUI.Button(new Rect(0, 40, 200, 40), "Paper"))
+            if (GUI.Button(new Rect(0, 40, 200, 40), "Shield"))
             {
-                FindAnyObjectByType<GameController>().RPC_Choose("Paper", this);
+                FindAnyObjectByType<GameController>().RPC_Choose(CombatMoves.shield, this);
+            }
+            if (GUI.Button(new Rect(0, 80, 200, 40), "Shoot"))
+            {
+                FindAnyObjectByType<GameController>().RPC_Choose(CombatMoves.shoot, this);
+            }
+            if (GUI.Button(new Rect(0, 120, 200, 40), "Bomb"))
+            {
+                FindAnyObjectByType<GameController>().RPC_Choose(CombatMoves.bomb, this);
             }
         }
     }
