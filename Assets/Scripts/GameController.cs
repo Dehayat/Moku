@@ -37,6 +37,10 @@ public class GameController : NetworkBehaviour
         {
             currentState = GameState.WaitingForPlayersToChoose;
             playerChooseCount = 0;
+            foreach (var player in GameObject.FindObjectsOfType<Player>())
+            {
+                player.currentState = PlayerState.choosing;
+            }
         }
     }
 
