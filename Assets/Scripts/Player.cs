@@ -19,6 +19,10 @@ public class Player : NetworkBehaviour
     [Networked] public int lives { get; set; }
     [Networked] public int bullets { get; set; }
 
+    public bool willBomb;
+    public bool willShoot;
+    public bool isShielding;
+
     public static void OnStateChanged(Changed<Player> changed)
     {
         changed.Behaviour.OnStateChanged();

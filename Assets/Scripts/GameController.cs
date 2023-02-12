@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using System;
 
 public enum GameState
 {
@@ -46,21 +47,26 @@ public class GameController : NetworkBehaviour
             player2 = player;
             combatResolver.SetPlayers(player1, player2);
             Debug.Log("All players are here");
-            //Setup Round
-            currentState = GameState.WaitingForPlayersToChoose;
-            playerChooseCount = 0;
-            foreach (var playerInstance in GameObject.FindObjectsOfType<Player>())
-            {
-                playerInstance.currentState = PlayerState.choosing;
-            }
-            player1Choice = CombatMoves.nothing;
-            player2Choice = CombatMoves.nothing;
-            //End Setup round
+            SetUpRound();
         }
         else
         {
             player1 = player;
         }
+    }
+
+    private void SetUpRound()
+    {
+        //Setup Round
+        currentState = GameState.WaitingForPlayersToChoose;
+        playerChooseCount = 0;
+        foreach (var playerInstance in GameObject.FindObjectsOfType<Player>())
+        {
+            playerInstance.currentState = PlayerState.choosing;
+        }
+        player1Choice = CombatMoves.nothing;
+        player2Choice = CombatMoves.nothing;
+        //End Setup round
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
@@ -80,9 +86,12 @@ public class GameController : NetworkBehaviour
         //Both players chosen
         if (playerChooseCount == 2)
         {
+            //Resolve combat
             currentState = GameState.ResolvingChoices;
-            combatResolver.ResolveCombat(player1Choice, player2Choice);
             Debug.Log("Resolving choices");
+            combatResolver.ResolveCombat(player1Choice, player2Choice);
+            //go to next turn
+            SetUpRound();
         }
     }
 }
