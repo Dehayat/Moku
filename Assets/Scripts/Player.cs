@@ -15,7 +15,9 @@ public enum PlayerState
 public class Player : NetworkBehaviour
 {
 
-    [Networked(OnChanged = nameof(OnStateChanged))] public PlayerState currentState { get; set; } = PlayerState.waiting;
+    [Networked(OnChanged = nameof(OnStateChanged))] public PlayerState currentState { get; set; }
+    [Networked] public int lives { get; set; }
+    [Networked] public int bullets { get; set; }
 
     public static void OnStateChanged(Changed<Player> changed)
     {
@@ -43,7 +45,10 @@ public class Player : NetworkBehaviour
     {
         if (Object.HasInputAuthority)
         {
-            FindAnyObjectByType<GameController>().RPC_PlayerJoin();
+            currentState = PlayerState.waiting;
+            lives = 5;
+            bullets = 0;
+            FindAnyObjectByType<GameController>().RPC_PlayerJoin(this);
         }
     }
     public override void FixedUpdateNetwork()
