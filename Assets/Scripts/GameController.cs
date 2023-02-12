@@ -96,12 +96,11 @@ public class GameController : NetworkBehaviour
         currentState = GameState.ResolvingChoices;
         Debug.Log("Resolving choices");
         combatResolver.ResolveCombat(player1Choice, player2Choice);
-
-        //EndRound();
     }
 
-    public void EndRound()
+    public void EndTurn()
     {
+        Debug.Log("============== Round Ended ====================");
         if (player1.lives > 0 && player2.lives > 0)
         {
             GoToChooseState();
@@ -110,6 +109,7 @@ public class GameController : NetworkBehaviour
 
     private void GoToChooseState()
     {
+        Debug.Log("=============== Round Start ===================");
         SetUpRound();
     }
 }

@@ -31,18 +31,20 @@ public class CombatResolver : NetworkBehaviour
 
     public void ResolveCombat(CombatMoves player1Choice, CombatMoves player2Choice)
     {
-        ResolvePlayerChoice(player1, player1Choice);
-        ResolvePlayerChoice(player2, player2Choice);
-        ResolveInteraction(player1Choice, player2Choice);
-        StartCoroutine(WaitALittleThenStartNextRound());
+        StartCoroutine(CombatSequence(player1Choice, player2Choice));
     }
 
-    IEnumerator WaitALittleThenStartNextRound()
+    IEnumerator CombatSequence(CombatMoves player1Choice, CombatMoves player2Choice)
     {
-        yield return new WaitForSecondsRealtime(2);
+        ResolvePlayerChoice(player1, player1Choice);
+        ResolvePlayerChoice(player2, player2Choice);
+        yield return new WaitForSecondsRealtime(1);
+        ResolveInteraction(player1Choice, player2Choice);
+        yield return new WaitForSecondsRealtime(1);
         player1.ResetAnim();
         player2.ResetAnim();
-        gameController.EndRound();
+        yield return new WaitForSecondsRealtime(1);
+        gameController.EndTurn();
     }
 
     private void ResolveInteraction(CombatMoves player1Choice, CombatMoves player2Choice)
@@ -77,11 +79,11 @@ public class CombatResolver : NetworkBehaviour
     private void BombOtherPlayer(Player bomberPlayer, Player bombedPlayer)
     {
         Debug.Log(bomberPlayer.Id + " Bombed " + bombedPlayer.Id);
-        NewRound();
         bombedPlayer.lives--;
+        ResetRound();
     }
 
-    private void NewRound()
+    private void ResetRound()
     {
         player1.ResetRound();
         player2.ResetRound();
@@ -96,9 +98,9 @@ public class CombatResolver : NetworkBehaviour
         }
         else
         {
-            Debug.Log("And it hurt " + shotPlayer.Id);
+            Debug.Log("And it hurt " + shotPlayer.GetPlayerId());
             shotPlayer.lives--;
-            NewRound();
+            ResetRound();
         }
     }
 
@@ -107,7 +109,7 @@ public class CombatResolver : NetworkBehaviour
         Debug.Log("Both players shot each other");
         player1.lives--;
         player2.lives--;
-        NewRound();
+        ResetRound();
     }
 
     private void ResolvePlayerChoice(Player player, CombatMoves choice)
@@ -117,18 +119,18 @@ public class CombatResolver : NetworkBehaviour
         player.isShielding = false;
         if (choice == CombatMoves.nothing)
         {
-            Debug.Log(player.Id + " Did Nothing");
+            Debug.Log(player.GetPlayerId() + " Did Nothing");
         }
         else if (choice == CombatMoves.charge)
         {
             player.Charge();
-            Debug.Log(player.Id + " Charging");
+            Debug.Log(player.GetPlayerId() + " Charging");
             player.bullets += 1;
         }
         else if (choice == CombatMoves.shield)
         {
             player.Shield();
-            Debug.Log(player.Id + " Shielding");
+            Debug.Log(player.GetPlayerId() + " Shielding");
             player.isShielding = true;
         }
         else if (choice == CombatMoves.shoot)
@@ -136,13 +138,13 @@ public class CombatResolver : NetworkBehaviour
             player.Shoot();
             if (player.bullets >= 1)
             {
-                Debug.Log(player.Id + " shooting");
+                Debug.Log(player.GetPlayerId() + " shooting");
                 player.bullets -= 1;
                 player.willShoot = true;
             }
             else
             {
-                Debug.Log(player.Id + " Failed to shoot");
+                Debug.Log(player.GetPlayerId() + " tried to shoot but has no bullets");
             }
         }
         else if (choice == CombatMoves.bomb)
@@ -150,13 +152,13 @@ public class CombatResolver : NetworkBehaviour
             if (player.bullets >= 5)
             {
                 player.Bomb();
-                Debug.Log(player.Id + " bombing");
+                Debug.Log(player.GetPlayerId() + " bombing");
                 player.bullets -= 5;
                 player.willBomb = true;
             }
             else
             {
-                Debug.Log(player.Id + " Failed to bomb");
+                Debug.Log(player.GetPlayerId() + " tried to bomb but has no bullets");
             }
         }
     }

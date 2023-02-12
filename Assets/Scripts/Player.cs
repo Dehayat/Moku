@@ -120,4 +120,9 @@ public class Player : NetworkBehaviour
             }
         }
     }
+
+    public string GetPlayerId()
+    {
+        return "Player " + Object.StateAuthority.PlayerId;
+    }
 }
