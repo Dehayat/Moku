@@ -40,6 +40,8 @@ public class CombatResolver : NetworkBehaviour
     IEnumerator WaitALittleThenStartNextRound()
     {
         yield return new WaitForSecondsRealtime(2);
+        player1.ResetAnim();
+        player2.ResetAnim();
         gameController.EndRound();
     }
 
