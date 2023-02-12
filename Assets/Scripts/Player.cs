@@ -47,7 +47,7 @@ public class Player : NetworkBehaviour
 
     public override void Spawned()
     {
-        if (Object.HasInputAuthority)
+        if (Object.HasStateAuthority)
         {
             currentState = PlayerState.waiting;
             lives = 5;

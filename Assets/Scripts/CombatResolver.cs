@@ -54,7 +54,7 @@ public class CombatResolver : NetworkBehaviour
                 ShootOtherPlayer(player1, player2);
             }
         }
-        else if (player2Choice == CombatMoves.shoot)
+        else if (player2Choice == CombatMoves.shoot && player2.willShoot)
         {
             ShootOtherPlayer(player2, player1);
         }

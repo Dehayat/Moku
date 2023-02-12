@@ -47,7 +47,7 @@ public class GameController : NetworkBehaviour
             player2 = player;
             combatResolver.SetPlayers(player1, player2);
             Debug.Log("All players are here");
-            SetUpRound();
+            GoToChooseState();
         }
         else
         {
@@ -57,7 +57,6 @@ public class GameController : NetworkBehaviour
 
     private void SetUpRound()
     {
-        //Setup Round
         currentState = GameState.WaitingForPlayersToChoose;
         playerChooseCount = 0;
         foreach (var playerInstance in GameObject.FindObjectsOfType<Player>())
@@ -66,7 +65,6 @@ public class GameController : NetworkBehaviour
         }
         player1Choice = CombatMoves.nothing;
         player2Choice = CombatMoves.nothing;
-        //End Setup round
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
@@ -75,6 +73,7 @@ public class GameController : NetworkBehaviour
         Debug.Log(info.Source.PlayerId + " Chose " + move.ToString());
         player.currentState = PlayerState.chosen;
         playerChooseCount++;
+        //Save player choice
         if (player == player1)
         {
             player1Choice = move;
@@ -86,12 +85,30 @@ public class GameController : NetworkBehaviour
         //Both players chosen
         if (playerChooseCount == 2)
         {
-            //Resolve combat
-            currentState = GameState.ResolvingChoices;
-            Debug.Log("Resolving choices");
-            combatResolver.ResolveCombat(player1Choice, player2Choice);
-            //go to next turn
-            SetUpRound();
+            GoToResolveState();
         }
+    }
+
+    private void GoToResolveState()
+    {
+        //Resolve combat
+        currentState = GameState.ResolvingChoices;
+        Debug.Log("Resolving choices");
+        combatResolver.ResolveCombat(player1Choice, player2Choice);
+
+        EndRound();
+    }
+
+    private void EndRound()
+    {
+        if (player1.lives > 0 && player2.lives > 0)
+        {
+            GoToChooseState();
+        }
+    }
+
+    private void GoToChooseState()
+    {
+        SetUpRound();
     }
 }
