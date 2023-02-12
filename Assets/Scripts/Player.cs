@@ -81,7 +81,7 @@ public class Player : NetworkBehaviour
     {
         if (Object.HasStateAuthority)
         {
-            anim = GetComponent<Animator>();
+            anim = GetComponentInChildren<Animator>();
             currentState = PlayerState.waiting;
             lives = 5;
             bullets = 0;
