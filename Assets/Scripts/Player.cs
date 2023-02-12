@@ -123,6 +123,6 @@ public class Player : NetworkBehaviour
 
     public string GetPlayerId()
     {
-        return "Player " + Object.StateAuthority.PlayerId;
+        return "Player " + Object.InputAuthority.PlayerId;
     }
 }
