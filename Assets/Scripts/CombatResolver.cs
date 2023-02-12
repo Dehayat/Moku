@@ -17,7 +17,12 @@ public class CombatResolver : NetworkBehaviour
 {
     public Player player1;
     public Player player2;
+    private GameController gameController;
 
+    public void Init(GameController gameController)
+    {
+        this.gameController = gameController;
+    }
     public void SetPlayers(Player player1, Player player2)
     {
         this.player1 = player1;
@@ -29,6 +34,13 @@ public class CombatResolver : NetworkBehaviour
         ResolvePlayerChoice(player1, player1Choice);
         ResolvePlayerChoice(player2, player2Choice);
         ResolveInteraction(player1Choice, player2Choice);
+        StartCoroutine(WaitALittleThenStartNextRound());
+    }
+
+    IEnumerator WaitALittleThenStartNextRound()
+    {
+        yield return new WaitForSecondsRealtime(2);
+        gameController.EndRound();
     }
 
     private void ResolveInteraction(CombatMoves player1Choice, CombatMoves player2Choice)
@@ -62,14 +74,19 @@ public class CombatResolver : NetworkBehaviour
 
     private void BombOtherPlayer(Player bomberPlayer, Player bombedPlayer)
     {
-        //Play bomb animation regardless
         Debug.Log(bomberPlayer.Id + " Bombed " + bombedPlayer.Id);
+        NewRound();
         bombedPlayer.lives--;
+    }
+
+    private void NewRound()
+    {
+        player1.ResetRound();
+        player2.ResetRound();
     }
 
     private void ShootOtherPlayer(Player shootingPlayer, Player shotPlayer)
     {
-        //play get shoot animation
         Debug.Log(shootingPlayer.Id + " Shot" + shotPlayer.Id);
         if (shotPlayer.isShielding)
         {
@@ -79,13 +96,16 @@ public class CombatResolver : NetworkBehaviour
         {
             Debug.Log("And it hurt " + shotPlayer.Id);
             shotPlayer.lives--;
+            NewRound();
         }
     }
 
     private void ShootEachOther()
     {
-        //play both get shot animation
         Debug.Log("Both players shot each other");
+        player1.lives--;
+        player2.lives--;
+        NewRound();
     }
 
     private void ResolvePlayerChoice(Player player, CombatMoves choice)
@@ -95,24 +115,23 @@ public class CombatResolver : NetworkBehaviour
         player.isShielding = false;
         if (choice == CombatMoves.nothing)
         {
-
             Debug.Log(player.Id + " Did Nothing");
         }
         else if (choice == CombatMoves.charge)
         {
-            //play charge animation
+            player.Charge();
             Debug.Log(player.Id + " Charging");
             player.bullets += 1;
         }
         else if (choice == CombatMoves.shield)
         {
-            //playe shield animation
+            player.Shield();
             Debug.Log(player.Id + " Shielding");
             player.isShielding = true;
         }
         else if (choice == CombatMoves.shoot)
         {
-            //playe shoot animaiton
+            player.Shoot();
             if (player.bullets >= 1)
             {
                 Debug.Log(player.Id + " shooting");
@@ -126,9 +145,9 @@ public class CombatResolver : NetworkBehaviour
         }
         else if (choice == CombatMoves.bomb)
         {
-            //playe shoot animaiton
             if (player.bullets >= 5)
             {
+                player.Bomb();
                 Debug.Log(player.Id + " bombing");
                 player.bullets -= 5;
                 player.willBomb = true;

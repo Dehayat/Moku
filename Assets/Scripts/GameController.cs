@@ -35,6 +35,7 @@ public class GameController : NetworkBehaviour
         {
             currentState = GameState.WaitingForPlayersToJoin;
             playerCount = 0;
+            combatResolver.Init(this);
         }
     }
 
@@ -96,10 +97,10 @@ public class GameController : NetworkBehaviour
         Debug.Log("Resolving choices");
         combatResolver.ResolveCombat(player1Choice, player2Choice);
 
-        EndRound();
+        //EndRound();
     }
 
-    private void EndRound()
+    public void EndRound()
     {
         if (player1.lives > 0 && player2.lives > 0)
         {
