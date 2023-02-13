@@ -16,37 +16,6 @@ public enum PlayerState
 public class Player : NetworkBehaviour
 {
 
-    private Animator anim;
-
-    public void ResetAnim()
-    {
-        anim.SetBool("Shoot", false);
-        anim.SetBool("Shield", false);
-        anim.SetBool("Charge", false);
-        anim.SetBool("Bomb", false);
-    }
-
-    public void Shoot()
-    {
-        ResetAnim();
-        anim.SetBool("Shoot", true);
-    }
-    public void Shield()
-    {
-        ResetAnim();
-        anim.SetBool("Shield", true);
-    }
-    public void Charge()
-    {
-        ResetAnim();
-        anim.SetBool("Charge", true);
-    }
-    public void Bomb()
-    {
-        ResetAnim();
-        anim.SetBool("Bomb", true);
-    }
-
     [Networked(OnChanged = nameof(OnStateChanged))] public PlayerState currentState { get; set; }
     [Networked] public int lives { get; set; }
     [Networked] public int bullets { get; set; }
@@ -54,6 +23,7 @@ public class Player : NetworkBehaviour
     public bool willBomb;
     public bool willShoot;
     public bool isShielding;
+    public PlayerView view;
 
     public static void OnStateChanged(Changed<Player> changed)
     {
@@ -81,7 +51,6 @@ public class Player : NetworkBehaviour
     {
         if (Object.HasStateAuthority)
         {
-            anim = GetComponentInChildren<Animator>();
             currentState = PlayerState.waiting;
             lives = 5;
             bullets = 0;

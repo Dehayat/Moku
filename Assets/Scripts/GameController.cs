@@ -20,6 +20,8 @@ public class GameController : NetworkBehaviour
     private CombatResolver combatResolver;
     [SerializeField]
     private GameState currentState;
+    [SerializeField]
+    private GameObject playerViewPrefab;
     private int playerCount;
     private int playerChooseCount;
 
@@ -42,6 +44,8 @@ public class GameController : NetworkBehaviour
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
     public void RPC_PlayerJoin(Player player, RpcInfo info = default)
     {
+        var obj = Runner.Spawn(playerViewPrefab, player.transform.position);
+        player.view = obj.GetComponent<PlayerView>();
         playerCount++;
         if (playerCount == 2)
         {

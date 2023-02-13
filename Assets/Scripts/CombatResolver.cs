@@ -41,8 +41,8 @@ public class CombatResolver : NetworkBehaviour
         yield return new WaitForSecondsRealtime(1);
         ResolveInteraction(player1Choice, player2Choice);
         yield return new WaitForSecondsRealtime(1);
-        player1.ResetAnim();
-        player2.ResetAnim();
+        player1.view.ResetAnim();
+        player2.view.ResetAnim();
         yield return new WaitForSecondsRealtime(1);
         gameController.EndTurn();
     }
@@ -123,19 +123,19 @@ public class CombatResolver : NetworkBehaviour
         }
         else if (choice == CombatMoves.charge)
         {
-            player.Charge();
+            player.view.Charge();
             Debug.Log(player.GetPlayerId() + " Charging");
             player.bullets += 1;
         }
         else if (choice == CombatMoves.shield)
         {
-            player.Shield();
+            player.view.Shield();
             Debug.Log(player.GetPlayerId() + " Shielding");
             player.isShielding = true;
         }
         else if (choice == CombatMoves.shoot)
         {
-            player.Shoot();
+            player.view.Shoot();
             if (player.bullets >= 1)
             {
                 Debug.Log(player.GetPlayerId() + " shooting");
@@ -151,7 +151,7 @@ public class CombatResolver : NetworkBehaviour
         {
             if (player.bullets >= 5)
             {
-                player.Bomb();
+                player.view.Bomb();
                 Debug.Log(player.GetPlayerId() + " bombing");
                 player.bullets -= 5;
                 player.willBomb = true;

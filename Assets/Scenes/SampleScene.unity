@@ -449,6 +449,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   combatResolver: {fileID: 1408513703}
   currentState: 0
+  playerViewPrefab: {fileID: 3968995977912724151, guid: 09fd4ffed19c7f54e80985765b74ccbf, type: 3}
   player1: {fileID: 0}
   player2: {fileID: 0}
 --- !u!4 &1408513701
