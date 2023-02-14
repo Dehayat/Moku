@@ -67,7 +67,7 @@ public class Player : NetworkBehaviour
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_Test(RpcInfo info = default)
     {
-        Debug.Log("it did the thing");
+        Debug.Log("it did the thing" + info.Source.PlayerId);
     }
 
     public override void Spawned()
