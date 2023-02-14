@@ -72,6 +72,7 @@ public class Player : NetworkBehaviour
 
     public override void Spawned()
     {
+        Debug.Log("this is coming from " + Runner.LocalPlayer.PlayerId);
         RPC_Test();
 
         if (Object.HasStateAuthority)
