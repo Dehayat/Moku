@@ -64,8 +64,16 @@ public class Player : NetworkBehaviour
         }
     }
 
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    public void RPC_Test(RpcInfo info = default)
+    {
+        Debug.Log("it did the thing");
+    }
+
     public override void Spawned()
     {
+        RPC_Test();
+
         if (Object.HasStateAuthority)
         {
             currentState = PlayerState.waiting;
