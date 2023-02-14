@@ -13,6 +13,7 @@ public class PlayerView : NetworkBehaviour
         anim = GetComponentInChildren<Animator>();
     }
 
+
     public void ResetAnim()
     {
         anim.SetBool("Shoot", false);

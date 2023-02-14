@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6169798832676096646}
   - component: {fileID: 4732514339447010475}
   - component: {fileID: 8584271242118432087}
-  - component: {fileID: -7619218368979689098}
   m_Layer: 0
   m_Name: PlayerView
   m_TagString: Untagged
@@ -58,7 +57,6 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 8584271242118432087}
-  - {fileID: -7619218368979689098}
   - {fileID: 6903401631024589742}
   SimulationBehaviours: []
 --- !u!114 &8584271242118432087
@@ -74,34 +72,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
---- !u!114 &-7619218368979689098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3968995977912724151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 3
-  InterpolationSpace: 0
-  InterpolationTarget: {fileID: 0}
-  InterpolateErrorCorrection: 0
-  InterpolatedErrorCorrectionSettings:
-    MinRate: 3.3
-    MaxRate: 10
-    PosBlendStart: 0.25
-    PosBlendEnd: 1
-    PosMinCorrection: 0.025
-    PosTeleportDistance: 2
-    RotBlendStart: 0.1
-    RotBlendEnd: 0.5
-    RotTeleportRadians: 1.5
-  UseLegacySharedModeInterpolation: 0
-  TargetInterpolationDelay: 0.03
 --- !u!1001 &6629311624796133526
 PrefabInstance:
   m_ObjectHideFlags: 0

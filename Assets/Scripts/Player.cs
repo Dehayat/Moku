@@ -19,11 +19,27 @@ public class Player : NetworkBehaviour
     [Networked(OnChanged = nameof(OnStateChanged))] public PlayerState currentState { get; set; }
     [Networked] public int lives { get; set; }
     [Networked] public int bullets { get; set; }
+    [Networked] public PlayerView view { get; set; }
 
     public bool willBomb;
     public bool willShoot;
     public bool isShielding;
-    public PlayerView view;
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    public void RPC_SetSpawnPoint(Vector3 ownerSpawn, Vector3 enemySpawn)
+    {
+        if (HasInputAuthority)
+        {
+            view.transform.position = ownerSpawn;
+            var scale = view.transform.localScale;
+            scale.x = -1;
+            view.transform.localScale = scale;
+        }
+        else
+        {
+            view.transform.position = enemySpawn;
+        }
+    }
 
     public static void OnStateChanged(Changed<Player> changed)
     {

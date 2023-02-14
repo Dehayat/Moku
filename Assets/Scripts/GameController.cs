@@ -22,6 +22,12 @@ public class GameController : NetworkBehaviour
     private GameState currentState;
     [SerializeField]
     private GameObject playerViewPrefab;
+    [SerializeField]
+    private Transform spawnPointOwner;
+    [SerializeField]
+    private Transform spawnPointEnemy;
+    [SerializeField]
+    private GameUI ui;
     private int playerCount;
     private int playerChooseCount;
 
@@ -46,12 +52,14 @@ public class GameController : NetworkBehaviour
     {
         var obj = Runner.Spawn(playerViewPrefab, player.transform.position);
         player.view = obj.GetComponent<PlayerView>();
+        player.RPC_SetSpawnPoint(spawnPointOwner.position, spawnPointEnemy.position);
         playerCount++;
         if (playerCount == 2)
         {
             player2 = player;
             combatResolver.SetPlayers(player1, player2);
             Debug.Log("All players are here");
+            ui.RPC_UpdateUI(player1, player2);
             GoToChooseState();
         }
         else
@@ -104,6 +112,7 @@ public class GameController : NetworkBehaviour
 
     public void EndTurn()
     {
+        ui.RPC_UpdateUI(player1, player2);
         Debug.Log("============== Round Ended ====================");
         if (player1.lives > 0 && player2.lives > 0)
         {
