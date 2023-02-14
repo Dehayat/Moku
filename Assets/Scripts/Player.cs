@@ -28,6 +28,7 @@ public class Player : NetworkBehaviour
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_SetSpawnPoint(Vector3 ownerSpawn, Vector3 enemySpawn)
     {
+        Debug.Log("this happening " + ownerSpawn + " and  " + enemySpawn);
         if (HasInputAuthority)
         {
             view.transform.position = ownerSpawn;
