@@ -31,8 +31,8 @@ public class GameController : NetworkBehaviour
     private int playerCount;
     private int playerChooseCount;
 
-    public Player player1;
-    public Player player2;
+    [Networked] public Player player1 { get; set; }
+    [Networked] public Player player2 { get; set; }
 
     private CombatMoves player1Choice;
     private CombatMoves player2Choice;
