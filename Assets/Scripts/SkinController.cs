@@ -25,7 +25,10 @@ public class SkinController : NetworkBehaviour
 
     private void Start()
     {
-        GameData.instance.localSkinContainer = this;
+        if (GameData.instance != null)
+        {
+            GameData.instance.localSkinContainer = this;
+        }
     }
 
     public void EquipSkin(int id, int category)
