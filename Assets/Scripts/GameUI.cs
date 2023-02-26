@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using UnityEngine.UI;
+using System;
 
 public class GameUI : NetworkBehaviour
 {
+
     public Text playerOwnerHealth;
     public Text playerOwnerBullets;
     public Text playerEnemyHealth;
     public Text playerEnemyBullets;
+    public Text timerText;
+
+    [Networked(OnChanged = nameof(OnTimerChanged))] private int timerTime { get; set; }
 
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_UpdateUI(Player player1, Player player2)
@@ -26,5 +31,25 @@ public class GameUI : NetworkBehaviour
         playerEnemyHealth.text = "Health: " + player2.lives;
         playerEnemyBullets.text = "Bullets: " + player2.bullets;
     }
+    public static void OnTimerChanged(Changed<GameUI> changed)
+    {
+        changed.Behaviour.OnTimerChanged();
+    }
+    public void OnTimerChanged()
+    {
+        if (timerTime < 0)
+        {
+            timerText.text = "";
+        }
+        else
+        {
+            timerText.text = timerTime.ToString();
+        }
+    }
 
+
+    public void UpdateTimer(int t)
+    {
+        timerTime = t;
+    }
 }

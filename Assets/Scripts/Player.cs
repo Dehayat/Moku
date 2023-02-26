@@ -19,32 +19,53 @@ public class Player : NetworkBehaviour
     [Networked(OnChanged = nameof(OnStateChanged))] public PlayerState currentState { get; set; }
     [Networked] public int lives { get; set; }
     [Networked] public int bullets { get; set; }
-    [Networked] public PlayerView view { get; set; }
+    [Networked(OnChanged = nameof(OnPlayerViewChanged))] public PlayerView view { get; set; }
 
     public bool willBomb;
     public bool willShoot;
     public bool isShielding;
 
-    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
-    public void RPC_SetSpawnPoint(Vector3 ownerSpawn, Vector3 enemySpawn)
+    public override void Spawned()
     {
-        Debug.Log("this happening " + ownerSpawn + " and  " + enemySpawn);
-        if (HasInputAuthority)
+        //Debug.Log("this is coming from " + Runner.LocalPlayer.PlayerId);
+        //RPC_Test();
+
+        if (Object.HasStateAuthority)
         {
-            view.transform.position = ownerSpawn;
-            var scale = view.transform.localScale;
-            scale.x = -1;
-            view.transform.localScale = scale;
-        }
-        else
-        {
-            view.transform.position = enemySpawn;
+            currentState = PlayerState.waiting;
+            lives = 5;
+            bullets = 0;
+            FindAnyObjectByType<GameController>().PlayerJoin(this);
         }
     }
 
     public static void OnStateChanged(Changed<Player> changed)
     {
         changed.Behaviour.OnStateChanged();
+    }
+    public static void OnPlayerViewChanged(Changed<Player> changed)
+    {
+        changed.Behaviour.OnPlayerViewChanged();
+    }
+    private void OnPlayerViewChanged()
+    {
+        if (view != null)
+        {
+            var spawnpoints = FindAnyObjectByType<SpawnPointHolder>();
+            var ownerSpawn = spawnpoints.spawnPointOwner.position;
+            var enemySpawn = spawnpoints.spawnPointEnemy.position;
+            if (HasInputAuthority)
+            {
+                view.transform.position = ownerSpawn;
+                var scale = view.transform.localScale;
+                scale.x = -1;
+                view.transform.localScale = scale;
+            }
+            else
+            {
+                view.transform.position = enemySpawn;
+            }
+        }
     }
 
     private void OnStateChanged()
@@ -70,19 +91,6 @@ public class Player : NetworkBehaviour
         Debug.Log("it did the thing" + info.Source.PlayerId);
     }
 
-    public override void Spawned()
-    {
-        Debug.Log("this is coming from " + Runner.LocalPlayer.PlayerId);
-        RPC_Test();
-
-        if (Object.HasStateAuthority)
-        {
-            currentState = PlayerState.waiting;
-            lives = 5;
-            bullets = 0;
-            FindAnyObjectByType<GameController>().RPC_PlayerJoin(this);
-        }
-    }
 
     public void ResetRound()
     {

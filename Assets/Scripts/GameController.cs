@@ -23,13 +23,12 @@ public class GameController : NetworkBehaviour
     [SerializeField]
     private GameObject playerViewPrefab;
     [SerializeField]
-    private Transform spawnPointOwner;
-    [SerializeField]
-    private Transform spawnPointEnemy;
-    [SerializeField]
     private GameUI ui;
     private int playerCount;
     private int playerChooseCount;
+
+    [SerializeField]
+    private int chooseTime = 5;
 
     public Player player1;
     public Player player2;
@@ -37,8 +36,10 @@ public class GameController : NetworkBehaviour
     private CombatMoves player1Choice;
     private CombatMoves player2Choice;
 
+    int playersConnected = 0;
     public override void Spawned()
     {
+        playersConnected++;
         if (Object.HasStateAuthority)
         {
             currentState = GameState.WaitingForPlayersToJoin;
@@ -47,25 +48,30 @@ public class GameController : NetworkBehaviour
         }
     }
 
-    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
-    public void RPC_PlayerJoin(Player player, RpcInfo info = default)
+
+    public void PlayerJoin(Player player)
     {
         var obj = Runner.Spawn(playerViewPrefab, player.transform.position);
         player.view = obj.GetComponent<PlayerView>();
-        player.RPC_SetSpawnPoint(spawnPointOwner.position, spawnPointEnemy.position);
         playerCount++;
         if (playerCount == 2)
         {
             player2 = player;
             combatResolver.SetPlayers(player1, player2);
             Debug.Log("All players are here");
-            ui.RPC_UpdateUI(player1, player2);
-            GoToChooseState();
+            StartCoroutine(WaitForPlayersToBeReady());
         }
         else
         {
             player1 = player;
         }
+    }
+
+    IEnumerator WaitForPlayersToBeReady()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        ui.RPC_UpdateUI(player1, player2);
+        GoToChooseState();
     }
 
     private void SetUpRound()
@@ -78,11 +84,40 @@ public class GameController : NetworkBehaviour
         }
         player1Choice = CombatMoves.nothing;
         player2Choice = CombatMoves.nothing;
+        StartCoroutine(ChooseTimerSequence());
+    }
+    IEnumerator ChooseTimerSequence()
+    {
+        ui.UpdateTimer(-1);
+        int t = chooseTime;
+        ui.UpdateTimer(t);
+        while (t > 0)
+        {
+            yield return new WaitForSecondsRealtime(1);
+            t--;
+            ui.UpdateTimer(t);
+            if (currentState != GameState.WaitingForPlayersToChoose)
+            {
+                ui.UpdateTimer(-1);
+                break;
+            }
+        }
+        if (currentState == GameState.WaitingForPlayersToChoose)
+        {
+            ui.UpdateTimer(-1);
+            player1.currentState = PlayerState.chosen;
+            player2.currentState = PlayerState.chosen;
+            GoToResolveState();
+        }
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
     public void RPC_Choose(CombatMoves move, Player player, RpcInfo info = default)
     {
+        if (currentState != GameState.WaitingForPlayersToChoose)
+        {
+            return;
+        }
         Debug.Log(info.Source.PlayerId + " Chose " + move.ToString());
         player.currentState = PlayerState.chosen;
         playerChooseCount++;

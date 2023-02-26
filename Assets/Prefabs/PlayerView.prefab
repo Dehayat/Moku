@@ -58,6 +58,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 8584271242118432087}
   - {fileID: 6903401631024589742}
+  - {fileID: 2220330085308111469}
   SimulationBehaviours: []
 --- !u!114 &8584271242118432087
 MonoBehaviour:
@@ -129,6 +130,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c95fce6bef384df45b0f889b365dc4d5, type: 3}
+--- !u!114 &2220330085308111469 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4814411491873669883, guid: c95fce6bef384df45b0f889b365dc4d5, type: 3}
+  m_PrefabInstance: {fileID: 6629311624796133526}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5c9e439de3be0643bceb46f64585565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6903401631024589742 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 274091729056297784, guid: c95fce6bef384df45b0f889b365dc4d5, type: 3}
