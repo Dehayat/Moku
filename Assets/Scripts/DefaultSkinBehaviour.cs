@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkinBheaviour : MonoBehaviour
+public class DefaultSkinBehaviour : SkinBehaviour
 {
     public GameObject[] skinParts;
-    public void Equip()
+    override public void Equip()
     {
         foreach (var part in skinParts)
         {
             part.SetActive(true);
         }
     }
-    public void UnEquip()
+    override public void UnEquip()
     {
         foreach (var part in skinParts)
         {

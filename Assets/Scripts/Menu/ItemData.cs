@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SkinCategory
+public enum ItemCategory
 {
     head,
     arm,
@@ -13,10 +13,10 @@ public enum SkinCategory
     voice
 }
 
-[CreateAssetMenu(menuName = "Moku/SkinItem")]
-public class SkinItem : ScriptableObject
+[CreateAssetMenu(menuName = "Moku/Item")]
+public class ItemData : ScriptableObject
 {
     public int itemId;
     public Sprite itemIcon;
-    public SkinCategory category;
+    public ItemCategory category;
 }

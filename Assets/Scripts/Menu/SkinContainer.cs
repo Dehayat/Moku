@@ -6,7 +6,7 @@ public class SkinContainer : MonoBehaviour
 {
     public RectTransform contentContainer;
     public GameObject itemPrefab;
-    public SkinItem[] skinItems;
+    public ItemData[] skinItems;
 
     private void Start()
     {

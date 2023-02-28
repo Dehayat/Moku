@@ -73,7 +73,8 @@ MonoBehaviour:
   _currentState: 0
   _lives: 0
   _bullets: 0
+  _view: {fileID: 0}
   willBomb: 0
   willShoot: 0
   isShielding: 0
-  view: {fileID: 0}
+  startLives: 3

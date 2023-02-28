@@ -5,7 +5,21 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Moku/ShopItem")]
 public class ShopItem : ScriptableObject
 {
-    public int itemId;
+    public ItemData itemData;
     public float itemCost;
-    public Sprite itemIcon;
+
+    public int itemId
+    {
+        get
+        {
+            return itemData.itemId;
+        }
+    }
+    public Sprite itemIcon
+    {
+        get
+        {
+            return itemData.itemIcon;
+        }
+    }
 }

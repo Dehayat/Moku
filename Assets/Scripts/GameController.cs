@@ -24,6 +24,7 @@ public class GameController : NetworkBehaviour
     private GameObject playerViewPrefab;
     [SerializeField]
     private GameUI ui;
+    public float waitBeforeRevealTime = 1.5f;
     private int playerCount;
     private int playerChooseCount;
 
@@ -71,6 +72,8 @@ public class GameController : NetworkBehaviour
     {
         yield return new WaitForSecondsRealtime(0.5f);
         ui.RPC_UpdateUI(player1, player2);
+        yield return new WaitForSecondsRealtime(0.5f);
+        ui.RPC_HideLoading();
         GoToChooseState();
     }
 
@@ -86,6 +89,17 @@ public class GameController : NetworkBehaviour
         player2Choice = CombatMoves.nothing;
         StartCoroutine(ChooseTimerSequence());
     }
+
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    public void RPC_SetSkins(PlayerView view, int[] skinList)
+    {
+        SkinController skin = view.GetComponentInChildren<SkinController>();
+        foreach (var item in skinList)
+        {
+            skin.EquipSkin(GameData.instance.GetItemById(item));
+        }
+    }
+
     IEnumerator ChooseTimerSequence()
     {
         ui.UpdateTimer(-1);
@@ -139,10 +153,20 @@ public class GameController : NetworkBehaviour
 
     private void GoToResolveState()
     {
-        //Resolve combat
+        StartCoroutine(ResolveSequence());
+    }
+    IEnumerator ResolveSequence()
+    {
         currentState = GameState.ResolvingChoices;
+        yield return new WaitForSecondsRealtime(waitBeforeRevealTime);
+        //Resolve combat
         Debug.Log("Resolving choices");
         combatResolver.ResolveCombat(player1Choice, player2Choice);
+    }
+
+    public void UpdateUI()
+    {
+        ui.RPC_UpdateUI(player1, player2);
     }
 
     public void EndTurn()
@@ -153,11 +177,37 @@ public class GameController : NetworkBehaviour
         {
             GoToChooseState();
         }
+        else
+        {
+            Player winner = player1;
+            if (player2.lives > 0)
+            {
+                winner = player2;
+            }
+            RPC_EndGame(winner);
+        }
+    }
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    public void RPC_EndGame(Player winner, RpcInfo info = default)
+    {
+        ui.ShowEndScreen(winner.HasInputAuthority);
+        StartCoroutine(EndGameSequence());
+    }
+
+    IEnumerator EndGameSequence()
+    {
+        yield return new WaitForSecondsRealtime(4);
+        Runner.Shutdown();
     }
 
     private void GoToChooseState()
     {
         Debug.Log("=============== Round Start ===================");
         SetUpRound();
+    }
+
+    public void GoToMainMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 }

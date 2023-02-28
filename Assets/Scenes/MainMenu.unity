@@ -1293,7 +1293,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f1f758961ce9ec4aa83a0c514f067b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemList: {fileID: 11400000, guid: 607f1af3ab418a1419d005559395163c, type: 2}
   localSkinContainer: {fileID: 0}
+  defaultItems:
+  - {fileID: 11400000, guid: c1b116d39d7e99c41a8d61adb543dd1d, type: 2}
 --- !u!4 &389591778
 Transform:
   m_ObjectHideFlags: 0

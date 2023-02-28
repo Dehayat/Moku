@@ -8,10 +8,9 @@ public class SkinItemButton : MonoBehaviour
 {
     public Image icon;
 
-    private SkinItem item;
+    private ItemData item;
 
-
-    public void Init(SkinItem item)
+    public void Init(ItemData item)
     {
         this.item = item;
         UpdateView();
@@ -19,11 +18,11 @@ public class SkinItemButton : MonoBehaviour
 
     public void EquipSkin()
     {
-        GameData.instance.EquipItem(item.itemId, (int)item.category);
+        GameData.instance.EquipItem(item);
     }
     public void UnEquipSkin()
     {
-        GameData.instance.EquipItem(item.itemId, (int)item.category);
+        GameData.instance.EquipItem(item);
     }
 
     private void UpdateView()

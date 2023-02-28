@@ -25,6 +25,8 @@ public class Player : NetworkBehaviour
     public bool willShoot;
     public bool isShielding;
 
+    public int startLives = 5;
+
     public override void Spawned()
     {
         //Debug.Log("this is coming from " + Runner.LocalPlayer.PlayerId);
@@ -33,7 +35,7 @@ public class Player : NetworkBehaviour
         if (Object.HasStateAuthority)
         {
             currentState = PlayerState.waiting;
-            lives = 5;
+            lives = startLives;
             bullets = 0;
             FindAnyObjectByType<GameController>().PlayerJoin(this);
         }
@@ -43,6 +45,7 @@ public class Player : NetworkBehaviour
     {
         changed.Behaviour.OnStateChanged();
     }
+
     public static void OnPlayerViewChanged(Changed<Player> changed)
     {
         changed.Behaviour.OnPlayerViewChanged();
@@ -60,6 +63,10 @@ public class Player : NetworkBehaviour
                 var scale = view.transform.localScale;
                 scale.x = -1;
                 view.transform.localScale = scale;
+                if (GameData.instance != null)
+                {
+                    FindAnyObjectByType<GameController>().RPC_SetSkins(view, GameData.instance.GetEquippedItemList());
+                }
             }
             else
             {

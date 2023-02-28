@@ -17,27 +17,28 @@ public class MainMenu : MonoBehaviour
 
     public async void Play()
     {
-        if (isTryingToPlay)
-        {
-            return;
-        }
-        isTryingToPlay = true;
-        await _runner.StartGame(new StartGameArgs()
-        {
-            GameMode = GameMode.AutoHostOrClient,
-            Scene = SceneManager.GetActiveScene().buildIndex,
-            SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
-        });
-        if (!_runner.IsPlayer)
-        {
-            await _runner.Shutdown();
-            isTryingToPlay = false;
-            Debug.Log("Fuck");
-        }
-        else
-        {
-            Debug.Log("Hek yeah");
-            Debug.Log("I'm a server? " + _runner.IsServer);
-        }
+        SceneManager.LoadScene("Game");
+        //if (isTryingToPlay)
+        //{
+        //    return;
+        //}
+        //isTryingToPlay = true;
+        //await _runner.StartGame(new StartGameArgs()
+        //{
+        //    GameMode = GameMode.AutoHostOrClient,
+        //    Scene = SceneManager.GetActiveScene().buildIndex,
+        //    SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
+        //});
+        //if (!_runner.IsPlayer)
+        //{
+        //    await _runner.Shutdown();
+        //    isTryingToPlay = false;
+        //    Debug.Log("Fuck");
+        //}
+        //else
+        //{
+        //    Debug.Log("Hek yeah");
+        //    Debug.Log("I'm a server? " + _runner.IsServer);
+        //}
     }
 }

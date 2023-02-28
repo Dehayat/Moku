@@ -8,12 +8,20 @@ public class GameData : MonoBehaviour
 {
     public static GameData instance;
 
+    public ItemList itemList;
+    public SkinController localSkinContainer;
+    public ItemData[] defaultItems;
+
     private HashSet<int> items;
 
-    private HashSet<int> itemsEquiped;
-    private Dictionary<int, int> equipedCategoryItem;
+    private Dictionary<ItemCategory, ItemData> equipedItems;
 
-    public SkinController localSkinContainer;
+
+    public ItemData GetItemById(int id)
+    {
+        return itemList.GetItemById(id);
+    }
+
 
     private void Awake()
     {
@@ -26,6 +34,15 @@ public class GameData : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
             Init();
+        }
+    }
+
+    public void SetLocalSkinController(SkinController local)
+    {
+        localSkinContainer = local;
+        foreach (var item in equipedItems)
+        {
+            local.EquipSkin(item.Value);
         }
     }
 
@@ -42,9 +59,11 @@ public class GameData : MonoBehaviour
     private void LoadDefault()
     {
         items = new HashSet<int>();
-        itemsEquiped = new HashSet<int>();
-        equipedCategoryItem = new Dictionary<int, int>();
-        EquipItem(2, (int)SkinCategory.head);
+        equipedItems = new Dictionary<ItemCategory, ItemData>();
+        foreach (var item in defaultItems)
+        {
+            equipedItems.Add(item.category, item);
+        }
     }
 
     public void UnlockItem(int id)
@@ -52,36 +71,44 @@ public class GameData : MonoBehaviour
         items.Add(id);
     }
 
-    public void EquipItem(int id, int category)
+    public void EquipItem(ItemData item)
     {
-        itemsEquiped.Add(id);
-        if (equipedCategoryItem.ContainsKey(category))
+        if (equipedItems.ContainsKey(item.category))
         {
             if (localSkinContainer != null)
             {
-                localSkinContainer.UnEquipSkin(equipedCategoryItem[category], category);
+                localSkinContainer.UnEquipSkin(equipedItems[item.category]);
             }
-            itemsEquiped.Remove(equipedCategoryItem[category]);
         }
-        equipedCategoryItem[category] = id;
-        itemsEquiped.Add(id);
+        equipedItems[item.category] = item;
         if (localSkinContainer != null)
         {
-            localSkinContainer.EquipSkin(id, category);
+            localSkinContainer.EquipSkin(item);
         }
     }
-    public void UnEquipItem(int id, int category)
+    public void UnEquipItem(ItemData item)
     {
         if (localSkinContainer != null)
         {
-            localSkinContainer.UnEquipSkin(id, category);
+            localSkinContainer.UnEquipSkin(item);
         }
-        itemsEquiped.Remove(id);
-        equipedCategoryItem.Remove(category);
+        equipedItems.Remove(item.category);
     }
 
-    public bool isItemEquiped(int id)
+    public int[] GetEquippedItemList()
     {
-        return itemsEquiped.Contains(id);
+        int[] list = new int[equipedItems.Count];
+        int i = 0;
+        foreach (var item in equipedItems)
+        {
+            list[i] = item.Value.itemId;
+            i++;
+        }
+        return list;
+    }
+
+    public bool isItemEquiped(ItemData item)
+    {
+        return equipedItems.ContainsKey(item.category) && equipedItems[item.category] == item;
     }
 }

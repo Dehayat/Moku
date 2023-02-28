@@ -13,7 +13,6 @@ public class ShopMenu : MonoBehaviour
         foreach (var item in shopItems)
         {
             GameObject itemGO = Instantiate(itemPrefab, contentContainer);
-            //itemGO.GetComponent<RectTransform>().SetParent(contentContainer);
             itemGO.name = item.itemId + " / " + item.itemCost;
             var itemButton = itemGO.GetComponent<ShopItemButton>();
             itemButton.Init(item);

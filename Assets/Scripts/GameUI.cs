@@ -4,6 +4,7 @@ using UnityEngine;
 using Fusion;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class GameUI : NetworkBehaviour
 {
@@ -13,6 +14,12 @@ public class GameUI : NetworkBehaviour
     public Text playerEnemyHealth;
     public Text playerEnemyBullets;
     public Text timerText;
+
+    public GameObject loadingScreen;
+    public GameObject endScreen;
+    public TextMeshProUGUI resultText;
+    public string winText;
+    public string loseText;
 
     [Networked(OnChanged = nameof(OnTimerChanged))] private int timerTime { get; set; }
 
@@ -51,5 +58,24 @@ public class GameUI : NetworkBehaviour
     public void UpdateTimer(int t)
     {
         timerTime = t;
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    public void RPC_HideLoading()
+    {
+        loadingScreen.SetActive(false);
+    }
+
+    public void ShowEndScreen(bool win)
+    {
+        if (win)
+        {
+            resultText.text = winText;
+        }
+        else
+        {
+            resultText.text = loseText;
+        }
+        endScreen.SetActive(true);
     }
 }

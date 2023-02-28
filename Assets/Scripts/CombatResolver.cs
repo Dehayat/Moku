@@ -40,6 +40,7 @@ public class CombatResolver : NetworkBehaviour
         ResolvePlayerChoice(player2, player2Choice);
         yield return new WaitForSecondsRealtime(1);
         ResolveInteraction(player1Choice, player2Choice);
+        gameController.UpdateUI();
         yield return new WaitForSecondsRealtime(1);
         player1.view.ResetAnim();
         player2.view.ResetAnim();

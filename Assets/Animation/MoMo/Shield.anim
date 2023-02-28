@@ -20,16 +20,44 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
+      value: {fileID: 0}
+    attribute: m_Sprite
+    path: Skins/arms/MoMo/momo_charge_backhand-01
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
       value: {fileID: 21300000, guid: bae640a3807862046b1d87038a9829b7, type: 3}
     attribute: m_Sprite
-    path: arms/momo_charge_fronthand-01
+    path: Skins/arms/MoMo/momo_charge_fronthand-01
     classID: 212
     script: {fileID: 0}
   - curve:
     - time: 0
       value: {fileID: 0}
     attribute: m_Sprite
-    path: arms/momo_charge_backhand-01
+    path: Skins/arms/Fede/momo_charge_backhand-01
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: 0438d8cfc355c6041a03ead6fabd9e74, type: 3}
+    attribute: m_Sprite
+    path: Skins/arms/Fede/momo_charge_fronthand-01
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: 0}
+    attribute: m_Sprite
+    path: Skins/arms/Tim/momo_charge_backhand-01
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: 7b0f9bcae9fdb7146aeb60c7c7378a7e, type: 3}
+    attribute: m_Sprite
+    path: Skins/arms/Tim/momo_charge_fronthand-01
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 60
@@ -40,22 +68,54 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 2108886671
+      path: 3250064854
       attribute: 0
       script: {fileID: 0}
       typeID: 212
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
-      path: 4107452547
+      path: 1720172857
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 1356827745
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 856916119
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 2277320744
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 1019484935
       attribute: 0
       script: {fileID: 0}
       typeID: 212
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
+    - {fileID: 0}
     - {fileID: 21300000, guid: bae640a3807862046b1d87038a9829b7, type: 3}
     - {fileID: 0}
+    - {fileID: 21300000, guid: 0438d8cfc355c6041a03ead6fabd9e74, type: 3}
+    - {fileID: 0}
+    - {fileID: 21300000, guid: 7b0f9bcae9fdb7146aeb60c7c7378a7e, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

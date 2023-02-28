@@ -366,7 +366,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8716122178826392654
 Transform:
   m_ObjectHideFlags: 0
@@ -466,13 +466,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  _head: 0
+  _body: 0
+  _arms: 0
+  _overHead: 0
+  _overBody: 0
+  _overArms: 0
+  _voice: 0
   skinDataList:
-  - id: 2
-    gameObject: {fileID: 5833618053839261486}
-  - id: 3
-    gameObject: {fileID: 6231313767912939241}
-  - id: 4
-    gameObject: {fileID: 5929042670337816351}
+  - itemData: {fileID: 11400000, guid: c1b116d39d7e99c41a8d61adb543dd1d, type: 2}
+    skinBehaviour: {fileID: 2595410093548488123}
+  - itemData: {fileID: 11400000, guid: 90a6aea2546f85b429a9dfae782d64c4, type: 2}
+    skinBehaviour: {fileID: 8890120917027468962}
+  - itemData: {fileID: 11400000, guid: dfc298d04ca17cb41beb1c3deb843dfa, type: 2}
+    skinBehaviour: {fileID: 4920649617897552878}
 --- !u!1 &2367731436591559509
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,7 +700,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1351796042182612917
 Transform:
   m_ObjectHideFlags: 0
@@ -2147,14 +2154,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2192328180136813296}
-  - component: {fileID: 8790342070235071683}
+  - component: {fileID: 2595410093548488123}
   m_Layer: 0
   m_Name: MoMo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2192328180136813296
 Transform:
   m_ObjectHideFlags: 0
@@ -2171,7 +2178,7 @@ Transform:
   m_Father: {fileID: 837439108038169256}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8790342070235071683
+--- !u!114 &2595410093548488123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2180,10 +2187,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5833618053839261486}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cf0bbed71079f04a8d99eca021da3a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 1da0f889a38bae2458517cfeffa688d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   skinParts:
+  - {fileID: 5833618053839261486}
   - {fileID: 1209693165733367847}
   - {fileID: 2606821593666909534}
 --- !u!1 &5929042670337816351
@@ -2195,7 +2203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3404888797761765333}
-  - component: {fileID: 8217768073475636661}
+  - component: {fileID: 4920649617897552878}
   m_Layer: 0
   m_Name: Tim
   m_TagString: Untagged
@@ -2219,7 +2227,7 @@ Transform:
   m_Father: {fileID: 837439108038169256}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8217768073475636661
+--- !u!114 &4920649617897552878
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2228,10 +2236,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5929042670337816351}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cf0bbed71079f04a8d99eca021da3a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 1da0f889a38bae2458517cfeffa688d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   skinParts:
+  - {fileID: 5929042670337816351}
   - {fileID: 6401025921964898879}
   - {fileID: 4665670087928864250}
 --- !u!1 &5949086602856859231
@@ -2309,7 +2318,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 76526138045248148}
-  - component: {fileID: 7566104800857904380}
+  - component: {fileID: 8890120917027468962}
   m_Layer: 0
   m_Name: Fede
   m_TagString: Untagged
@@ -2333,7 +2342,7 @@ Transform:
   m_Father: {fileID: 837439108038169256}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7566104800857904380
+--- !u!114 &8890120917027468962
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2342,10 +2351,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6231313767912939241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cf0bbed71079f04a8d99eca021da3a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 1da0f889a38bae2458517cfeffa688d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   skinParts:
+  - {fileID: 6231313767912939241}
   - {fileID: 9209830193641614809}
   - {fileID: 5949086602856859231}
 --- !u!1 &6292618653487969349
