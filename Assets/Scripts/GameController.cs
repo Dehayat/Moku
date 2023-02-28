@@ -27,6 +27,8 @@ public class GameController : NetworkBehaviour
     public float waitBeforeRevealTime = 1.5f;
     private int playerCount;
     private int playerChooseCount;
+    [SerializeField]
+    private RewardGenerator rewardGenerator;
 
     [SerializeField]
     private int chooseTime = 5;
@@ -190,7 +192,8 @@ public class GameController : NetworkBehaviour
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_EndGame(Player winner, RpcInfo info = default)
     {
-        ui.ShowEndScreen(winner.HasInputAuthority);
+        var reward = rewardGenerator.TryUnlockReward(winner.HasInputAuthority);
+        ui.ShowEndScreen(winner.HasInputAuthority,reward);
         StartCoroutine(EndGameSequence());
     }
 

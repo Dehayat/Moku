@@ -11,8 +11,9 @@ public class GameData : MonoBehaviour
     public ItemList itemList;
     public SkinController localSkinContainer;
     public ItemData[] defaultItems;
+    public ItemData[] defaultUnlockedItems;
 
-    private HashSet<int> items;
+    private HashSet<int> unlockedItems;
 
     private Dictionary<ItemCategory, ItemData> equipedItems;
 
@@ -48,7 +49,7 @@ public class GameData : MonoBehaviour
 
     public bool HasItem(int itemId)
     {
-        return items.Contains(itemId);
+        return unlockedItems.Contains(itemId);
     }
 
     private void Init()
@@ -58,17 +59,21 @@ public class GameData : MonoBehaviour
 
     private void LoadDefault()
     {
-        items = new HashSet<int>();
+        unlockedItems = new HashSet<int>();
         equipedItems = new Dictionary<ItemCategory, ItemData>();
         foreach (var item in defaultItems)
         {
             equipedItems.Add(item.category, item);
         }
+        foreach (var item in defaultUnlockedItems)
+        {
+            unlockedItems.Add(item.itemId);
+        }
     }
 
     public void UnlockItem(int id)
     {
-        items.Add(id);
+        unlockedItems.Add(id);
     }
 
     public void EquipItem(ItemData item)

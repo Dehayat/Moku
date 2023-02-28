@@ -1661,6 +1661,7 @@ GameObject:
   - component: {fileID: 1408513702}
   - component: {fileID: 1408513703}
   - component: {fileID: 1408513704}
+  - component: {fileID: 1408513705}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -1686,6 +1687,7 @@ MonoBehaviour:
   playerViewPrefab: {fileID: 3968995977912724151, guid: 09fd4ffed19c7f54e80985765b74ccbf, type: 3}
   ui: {fileID: 2063760370}
   waitBeforeRevealTime: 1.5
+  rewardGenerator: {fileID: 1408513705}
   chooseTime: 5
   player1: {fileID: 0}
   player2: {fileID: 0}
@@ -1758,6 +1760,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowHierarchyWindowOverlay: 0
   PostLoadDelayFrames: 1
+--- !u!114 &1408513705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408513699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 246ca38255b137f4a8182623e0860878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  winRewardChance: 1
+  loseRewardChance: 0.5
 --- !u!1 &1588757744
 GameObject:
   m_ObjectHideFlags: 0
@@ -1791,6 +1807,7 @@ MonoBehaviour:
   localSkinContainer: {fileID: 0}
   defaultItems:
   - {fileID: 11400000, guid: c1b116d39d7e99c41a8d61adb543dd1d, type: 2}
+  defaultUnlockedItems: []
 --- !u!4 &1588757746
 Transform:
   m_ObjectHideFlags: 0
@@ -2464,6 +2481,8 @@ MonoBehaviour:
   loadingScreen: {fileID: 1642763147}
   endScreen: {fileID: 2001600338}
   resultText: {fileID: 655890829}
+  rewardText: {fileID: 1139339832}
+  rewardIcon: {fileID: 1116532738}
   winText: You Win :)
   loseText: You Lose :(
 --- !u!114 &2063760371

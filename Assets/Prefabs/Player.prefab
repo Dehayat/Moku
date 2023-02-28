@@ -77,4 +77,4 @@ MonoBehaviour:
   willBomb: 0
   willShoot: 0
   isShielding: 0
-  startLives: 3
+  startLives: 1

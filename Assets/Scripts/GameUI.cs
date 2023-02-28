@@ -18,6 +18,8 @@ public class GameUI : NetworkBehaviour
     public GameObject loadingScreen;
     public GameObject endScreen;
     public TextMeshProUGUI resultText;
+    public TextMeshProUGUI rewardText;
+    public Image rewardIcon;
     public string winText;
     public string loseText;
 
@@ -66,7 +68,7 @@ public class GameUI : NetworkBehaviour
         loadingScreen.SetActive(false);
     }
 
-    public void ShowEndScreen(bool win)
+    public void ShowEndScreen(bool win, ItemData reward)
     {
         if (win)
         {
@@ -75,6 +77,17 @@ public class GameUI : NetworkBehaviour
         else
         {
             resultText.text = loseText;
+        }
+        if (reward == null)
+        {
+            rewardText.text = "Yo got nothing :))";
+            rewardIcon.gameObject.SetActive(false);
+        }
+        else
+        {
+            rewardText.text = "Unlocked";
+            rewardIcon.sprite = reward.itemIcon;
+            rewardIcon.gameObject.SetActive(true);
         }
         endScreen.SetActive(true);
     }

@@ -8,13 +8,20 @@ public class SkinContainer : MonoBehaviour
     public GameObject itemPrefab;
     public ItemData[] skinItems;
 
-    private void Start()
+    private void OnEnable()
     {
+        for (int i = 0; i < contentContainer.childCount; i++)
+        {
+            Destroy(contentContainer.GetChild(i).gameObject);
+        }
         foreach (var item in skinItems)
         {
-            GameObject itemGO = Instantiate(itemPrefab, contentContainer);
-            var itemButton = itemGO.GetComponent<SkinItemButton>();
-            itemButton.Init(item);
+            if (GameData.instance.HasItem(item.itemId))
+            {
+                GameObject itemGO = Instantiate(itemPrefab, contentContainer);
+                var itemButton = itemGO.GetComponent<SkinItemButton>();
+                itemButton.Init(item);
+            }
         }
     }
 }

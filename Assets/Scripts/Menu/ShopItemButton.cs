@@ -38,7 +38,16 @@ public class ShopItemButton : MonoBehaviour
 
     public void BuyItem()
     {
+        ConfirmPanel.instance.Show("Buy this item for " + item.itemCost + "$", Buy, Cancel);
+    }
+
+    public void Buy()
+    {
         GameData.instance.UnlockItem(item.itemId);
         UpdateView();
+    }
+    public void Cancel()
+    {
+
     }
 }

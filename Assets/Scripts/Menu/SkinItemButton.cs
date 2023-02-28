@@ -16,13 +16,25 @@ public class SkinItemButton : MonoBehaviour
         UpdateView();
     }
 
+    public void ToggleEquip()
+    {
+        if (GameData.instance.isItemEquiped(item))
+        {
+            UnEquipSkin();
+        }
+        else
+        {
+            EquipSkin();
+        }
+    }
+
     public void EquipSkin()
     {
         GameData.instance.EquipItem(item);
     }
     public void UnEquipSkin()
     {
-        GameData.instance.EquipItem(item);
+        GameData.instance.UnEquipItem(item);
     }
 
     private void UpdateView()
