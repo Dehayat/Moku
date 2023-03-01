@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 5_Crampus
   m_EditorClassIdentifier: 
   itemId: 5
-  itemIcon: {fileID: 21300000, guid: f37e4d78da96a284c83378b90e295a22, type: 3}
+  itemIcon: {fileID: 21300000, guid: 01017adcbee5e264e95bbda75ef7a54e, type: 3}
   category: 3

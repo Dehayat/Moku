@@ -193,13 +193,24 @@ public class GameController : NetworkBehaviour
     public void RPC_EndGame(Player winner, RpcInfo info = default)
     {
         var reward = rewardGenerator.TryUnlockReward(winner.HasInputAuthority);
-        ui.ShowEndScreen(winner.HasInputAuthority,reward);
+        ui.ShowEndScreen(winner.HasInputAuthority, reward);
         StartCoroutine(EndGameSequence());
+    }
+
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    public void RPC_PlaySound(int soundId, RpcInfo info = default)
+    {
+        StartCoroutine(DelayPlaySound(soundId));
+    }
+    IEnumerator DelayPlaySound(int soundId)
+    {
+        yield return new WaitForSecondsRealtime(0.2f);
+        FindObjectOfType<AudioSource>().PlayOneShot(VoiceList.instance.GetVoiceById(soundId));
     }
 
     IEnumerator EndGameSequence()
     {
-        yield return new WaitForSecondsRealtime(4);
+        yield return new WaitForSecondsRealtime(6);
         Runner.Shutdown();
     }
 

@@ -10,8 +10,10 @@ public class GameUI : NetworkBehaviour
 {
 
     public Text playerOwnerHealth;
+    public HealthUI ownerHealthUI;
     public Text playerOwnerBullets;
     public Text playerEnemyHealth;
+    public HealthUI enemyHealthUI;
     public Text playerEnemyBullets;
     public Text timerText;
 
@@ -22,6 +24,7 @@ public class GameUI : NetworkBehaviour
     public Image rewardIcon;
     public string winText;
     public string loseText;
+    public GameObject mokuButton;
 
     [Networked(OnChanged = nameof(OnTimerChanged))] private int timerTime { get; set; }
 
@@ -36,9 +39,11 @@ public class GameUI : NetworkBehaviour
         }
 
         playerOwnerHealth.text = "Health: " + player1.lives;
+        ownerHealthUI.SetHealth(player1.lives);
         playerOwnerBullets.text = "Bullets: " + player1.bullets;
         playerEnemyHealth.text = "Health: " + player2.lives;
         playerEnemyBullets.text = "Bullets: " + player2.bullets;
+        enemyHealthUI.SetHealth(player2.lives);
     }
     public static void OnTimerChanged(Changed<GameUI> changed)
     {
@@ -73,10 +78,12 @@ public class GameUI : NetworkBehaviour
         if (win)
         {
             resultText.text = winText;
+            mokuButton.SetActive(true);
         }
         else
         {
             resultText.text = loseText;
+            mokuButton.SetActive(false);
         }
         if (reward == null)
         {

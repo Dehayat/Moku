@@ -39,6 +39,10 @@ public class Player : NetworkBehaviour
             bullets = 0;
             FindAnyObjectByType<GameController>().PlayerJoin(this);
         }
+        if (HasInputAuthority)
+        {
+            GameData.instance.localPlayer = this;
+        }
     }
 
     public static void OnStateChanged(Changed<Player> changed)
@@ -77,18 +81,17 @@ public class Player : NetworkBehaviour
 
     private void OnStateChanged()
     {
+        if (!HasInputAuthority) return;
         if (currentState == PlayerState.waiting)
         {
         }
         if (currentState == PlayerState.choosing)
         {
-            //allow choosing
-            //show ui
+            FindObjectOfType<ActionUI>().ShowActions();
         }
         if (currentState == PlayerState.chosen)
         {
-            //dont allow choosing
-            //Remove gui i guess
+            FindObjectOfType<ActionUI>().HideActions();
         }
     }
 
@@ -109,6 +112,7 @@ public class Player : NetworkBehaviour
     }
     private void OnGUI()
     {
+        return;
         if (Object.HasInputAuthority && currentState == PlayerState.choosing)
         {
 

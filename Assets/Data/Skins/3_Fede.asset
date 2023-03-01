@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 3_Fede
   m_EditorClassIdentifier: 
   itemId: 3
-  itemIcon: {fileID: 21300000, guid: b0f83a3c85eacba4fa3e6827393eb05e, type: 3}
+  itemIcon: {fileID: 21300000, guid: 0ab137fad9e1fc6458b5fc9cc8f3fc28, type: 3}
   category: 0

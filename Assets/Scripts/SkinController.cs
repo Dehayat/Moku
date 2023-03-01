@@ -60,7 +60,7 @@ public class SkinController : NetworkBehaviour
         }
         if (voice != 0)
         {
-            skinDataMap[voice].skinBehaviour.Equip();
+            //skinDataMap[voice].skinBehaviour.Equip();
         }
     }
 
@@ -92,7 +92,7 @@ public class SkinController : NetworkBehaviour
         }
         if (voice != 0)
         {
-            skinDataMap[voice].skinBehaviour.UnEquip();
+            //skinDataMap[voice].skinBehaviour.UnEquip();
         }
     }
 
@@ -117,6 +117,10 @@ public class SkinController : NetworkBehaviour
     {
         if (Runner == null || !Runner.IsRunning)
         {
+            if (item.category == ItemCategory.voice)
+            {
+                return;
+            }
             skinDataMap[item.itemId].skinBehaviour.Equip();
             return;
         }
