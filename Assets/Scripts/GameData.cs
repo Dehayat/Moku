@@ -19,7 +19,8 @@ public class GameData : MonoBehaviour
     public bool deleteAll = false;
 
     private HashSet<int> unlockedItems;
-    private Dictionary<ItemCategory, int> equipedItemsSave;
+    private List<int> unlockedItemsSave;
+    private List<int> equipedItemsSave;
     private Dictionary<ItemCategory, ItemData> equipedItems;
 
 
@@ -87,11 +88,9 @@ public class GameData : MonoBehaviour
     {
         unlockedItems = new HashSet<int>();
         equipedItems = new Dictionary<ItemCategory, ItemData>();
-        equipedItemsSave = new Dictionary<ItemCategory, int>();
         foreach (var item in defaultItems)
         {
             equipedItems.Add(item.category, item);
-            equipedItemsSave.Add(item.category, item.itemId);
         }
         foreach (var item in defaultUnlockedItems)
         {
@@ -107,19 +106,35 @@ public class GameData : MonoBehaviour
 
     private void Save()
     {
-        PlayerPrefs.SetString("unlocks", JsonConvert.SerializeObject(unlockedItems));
-        PlayerPrefs.SetString("equipped", JsonConvert.SerializeObject(equipedItemsSave));
+        equipedItemsSave = new List<int>();
+        foreach (var item in equipedItems)
+        {
+            equipedItemsSave.Add(item.Value.itemId);
+        }
+        unlockedItemsSave = new List<int>();
+        foreach (var item in unlockedItems)
+        {
+            unlockedItemsSave.Add(item);
+        }
+        PlayerPrefs.SetString("unlocksList", JsonConvert.SerializeObject(unlockedItems));
+        PlayerPrefs.SetString("equippedList", JsonConvert.SerializeObject(equipedItemsSave));
         PlayerPrefs.SetInt("saved", 1);
         PlayerPrefs.Save();
     }
     private void Load()
     {
-        unlockedItems = JsonConvert.DeserializeObject<HashSet<int>>(PlayerPrefs.GetString("unlocks"));
-        equipedItemsSave = JsonConvert.DeserializeObject<Dictionary<ItemCategory, int>>(PlayerPrefs.GetString("equipped"));
+        unlockedItemsSave = JsonConvert.DeserializeObject<List<int>>(PlayerPrefs.GetString("unlocksList"));
+        equipedItemsSave = JsonConvert.DeserializeObject<List<int>>(PlayerPrefs.GetString("equippedList"));
         equipedItems = new Dictionary<ItemCategory, ItemData>();
         foreach (var item in equipedItemsSave)
         {
-            equipedItems.Add(item.Key, GetItemById(item.Value));
+            var itemData = GetItemById(item);
+            equipedItems.Add(itemData.category, itemData);
+        }
+        unlockedItems = new HashSet<int>();
+        foreach (var item in unlockedItemsSave)
+        {
+            unlockedItems.Add(item);
         }
     }
 
@@ -133,7 +148,6 @@ public class GameData : MonoBehaviour
             }
         }
         equipedItems[item.category] = item;
-        equipedItemsSave[item.category] = item.itemId;
         if (localSkinContainer != null)
         {
             localSkinContainer.EquipSkin(item);
@@ -147,7 +161,6 @@ public class GameData : MonoBehaviour
             localSkinContainer.UnEquipSkin(item);
         }
         equipedItems.Remove(item.category);
-        equipedItemsSave.Remove(item.category);
         Save();
     }
 
