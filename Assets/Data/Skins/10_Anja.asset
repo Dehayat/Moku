@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b12b1cc8243c8014a8eab20c52df3a8c, type: 3}
   m_Name: 10_Anja
   m_EditorClassIdentifier: 
-  itemId: 0
-  itemIcon: {fileID: 0}
+  itemId: 10
+  itemIcon: {fileID: 21300000, guid: ad32ce5d9e884aa4aa1908edc982686e, type: 3}
   category: 0

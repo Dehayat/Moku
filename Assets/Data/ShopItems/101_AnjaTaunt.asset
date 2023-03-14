@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f83cd7c211f70d24790fcd2583a4f1fd, type: 3}
   m_Name: 101_AnjaTaunt
   m_EditorClassIdentifier: 
-  itemData: {fileID: 0}
-  itemCost: 0
+  itemData: {fileID: 11400000, guid: 1120069fb52fa6f41b8f07e41193e972, type: 2}
+  itemCost: 0.98

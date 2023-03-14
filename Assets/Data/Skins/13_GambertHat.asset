@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b12b1cc8243c8014a8eab20c52df3a8c, type: 3}
   m_Name: 13_GambertHat
   m_EditorClassIdentifier: 
-  itemId: 0
-  itemIcon: {fileID: 0}
+  itemId: 13
+  itemIcon: {fileID: 21300000, guid: 77c946d9eb094984090da599400ae371, type: 3}
   category: 0
